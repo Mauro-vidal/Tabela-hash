@@ -25,15 +25,10 @@ public class TabelaHash {
     //multiplicação
     public int multiplicacaoHash(int fator){
         double n = 0.6180339887; // numero entre 0 e 1
-//        return tabHash.length * fator;
         return (int)(tabHash.length * (fator * n % 1));
     }
 
-//    private int multiplicacaoHash(int fator) {
-//        double n = 0.6180339887; // número entre 0 e 1
-//        double result = (fator * n) % 1;
-//        return (int)(tabHash.length * result);
-//    }
+
 
     //dobramento
     public int dobramentoHash(int dobramento){

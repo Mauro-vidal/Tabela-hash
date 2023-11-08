@@ -5,7 +5,7 @@ public class DesempenhoHash {
 
     public static void main(String[] args) {
 
-        int[] tamanhos = {10, 100, 1000, 10000, 100000};
+        int[] tamanhos = {20000, 100000, 500000, 1000000, 5000000};
         int[] numElementos = {20000, 100000, 500000, 1000000, 5000000};
 
         for (int tamanho : tamanhos) {
@@ -16,10 +16,6 @@ public class DesempenhoHash {
 
                 System.out.println("Tamanho da tabela: " + tamanho);
                 System.out.println("Número de elementos: " + numElems);
-
-                inserirElementosAleatorios(tabelaResto, numElems);
-                inserirElementosAleatorios(tabelaDobramento, numElems);
-                inserirElementosAleatorios(tabelaMultiplicacao, numElems);
 
                 medirDesempenhoInsercao(tabelaResto, "Resto");
                 medirDesempenhoInsercao(tabelaDobramento, "Dobramento");
@@ -37,7 +33,7 @@ public class DesempenhoHash {
         }
     }
 
-    private static void inserirElementosAleatorios(TabelaHash tabela, int numElementos) {
+    private static void inserirRestoAleatorio(TabelaHash tabela, int numElementos) {
         Random random = new Random();
         for (int i = 0; i < numElementos; i++) {
             int nr = random.nextInt(900000000) + 100000000; // números de 100000000 a 999999999
@@ -53,7 +49,14 @@ public class DesempenhoHash {
         for (int i = 0; i < 10000; i++) {
             int nr = 100000000 + i; // Simulando mais inserções
             Registro r = new Registro(nr);
-            tabela.insere(r);
+            if(funcaoHash.equalsIgnoreCase("Resto")){
+                tabela.insere(r);
+            }else if(funcaoHash.equalsIgnoreCase("Multiplicacao")){
+                tabela.insereMultiplicacao(r);
+            }else {
+                tabela.insereDobramento(r);
+            }
+
         }
 
         long endTime = System.currentTimeMillis();
@@ -67,7 +70,13 @@ public class DesempenhoHash {
         // Localiza os elementos para medir o tempo
         for (int i = 0; i < 10000; i++) {
             int nr = 100000000 + i; // Simulando localização de elementos
-            tabela.localiza(nr);
+            if(funcaoHash.equalsIgnoreCase("Resto")){
+                tabela.localiza(nr);
+            }else if(funcaoHash.equalsIgnoreCase("Multiplicacao")){
+                tabela.localizaMultiplicacao(nr);
+            }else {
+                tabela.localizaDobramento(nr);
+            }
         }
 
         long endTime = System.currentTimeMillis();
@@ -77,7 +86,7 @@ public class DesempenhoHash {
 
     private static int contarColisoes(TabelaHash tabela) {
         int totalColisoes = 0;
-        for (int i = 0; i < tabela.tabHash.length; i++) {
+        for (int i = 1; i < tabela.tabHash.length; i++) {
             if (tabela.tabHash[i] != null) {
                 int h = tabela.hash(tabela.tabHash[i].getCodigo());
                 if (h != i) {
@@ -87,4 +96,6 @@ public class DesempenhoHash {
         }
         return totalColisoes;
     }
+
+
 }

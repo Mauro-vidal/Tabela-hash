@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class TesteTabelaHash {
     public static void main(String[] args) {
-        int[] tamanhos = {10, 100, 1000, 10000, 100000};
+        int[] tamanhos = {20000, 100000, 500000, 1000000, 5000000};
         int[] quantidadesDeDados = {20000, 100000, 500000, 1000000, 5000000};
 
         for (int tamanho : tamanhos) {
