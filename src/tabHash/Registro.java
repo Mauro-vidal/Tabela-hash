@@ -1,4 +1,4 @@
-package hash;
+package tabHash;
 
 public class Registro {
     private Integer codigo;
