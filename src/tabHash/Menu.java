@@ -10,7 +10,7 @@ public class Menu {
         Scanner scn = new Scanner(System.in);
         int tam = scn.nextInt();
 
-        System.out.print("Possibilita repeticao (0 = nao / qqr. outro = sim) -> ");
+        System.out.print("Possibilita repeticao (0 -> não possibilita | Outro número -> sim) -> ");
         boolean repete = false;
         int rep = scn.nextByte();
         if (rep != 0) {
@@ -43,7 +43,7 @@ public class Menu {
             System.out.println("9 - Remover elemento (função de hash de multiplicação).");
             System.out.println("10 - Imprimir tabela.");
             System.out.println("======================");
-            System.out.print("Opcao -> ");
+            System.out.print("Opção -> ");
 
             opc = scanner.nextInt();
 
@@ -114,7 +114,9 @@ public class Menu {
                     processarResultadoRemocao(r6);
                     break;
                 case 10:
-                    System.out.println(th.imprimeTab(true));
+                    String tabelaImprimida = th.imprimeTab(true);
+                    System.out.println(tabelaImprimida);
+//                    System.out.println(th.imprimeTab(true));
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
@@ -125,11 +127,11 @@ public class Menu {
 
     private Registro criarRegistro() {
         try {
-            System.out.print("Informe o número identificador -> ");
+            System.out.print("Informe o número identificador(registro) -> ");
             Scanner scnN = new Scanner(System.in);
             int nr = scnN.nextInt();
 
-            System.out.print("Informe os dados -> ");
+            System.out.print("Informe um identificador para o registro inserido -> ");
             Scanner scnS = new Scanner(System.in);
             String dd = scnS.nextLine();
 

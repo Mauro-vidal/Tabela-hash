@@ -2,24 +2,28 @@ package tabHash;
 
 
 public class TabelaHash {
+
+    final Registro[]tabHash;
+    private final boolean repete;
+    private int qtd;
+    private int qtdColisoes = 0;
+
     public TabelaHash(int tam, boolean rep){
         this.tabHash = new Registro[tam];
         this.repete = rep;
         this.qtd = 0;
     }
 
-    private final Registro[]tabHash;
-    private final boolean repete;
-    private int qtd;
+    public int getQtdColisoes() {
+        return qtdColisoes;
+    }
 
-
-    private int hash(int nr) {
+    public int hash(int nr) {
         return nr % tabHash.length;
     } // resto da divisão
 
-
     //multiplicação
-    private int multiplicacaoHash(int fator){
+    public int multiplicacaoHash(int fator){
         double n = 0.6180339887; // numero entre 0 e 1
 //        return tabHash.length * fator;
         return (int)(tabHash.length * (fator * n % 1));
@@ -32,7 +36,7 @@ public class TabelaHash {
 //    }
 
     //dobramento
-    private int dobramentoHash(int dobramento){
+    public int dobramentoHash(int dobramento){
         int somaPartes = 0;
         int numDivisor = 100000000;
 
@@ -52,7 +56,7 @@ public class TabelaHash {
         if (qtd == tabHash.length) {
             return "A tabela está cheia, não é possível inserir elementos";
         }
-        int nr = r.getCodigo();  // numero identificador do elemento (salvar para diminuir a quantidade de chamadas ao metodo e.getNumero()).
+        int nr = r.getCodigo();  // numero identificador do elemento (salva para diminuir a quantidade de chamadas ao metodo e.getNumero()).
         int h = hash(nr);
 
         //=== CASO DE NAO PERMITIR REPETICAO ===================================
@@ -77,6 +81,8 @@ public class TabelaHash {
                 tabHash[i] = r;
                 inserido = true;
                 break;
+            }else {
+                qtdColisoes++;
             }
         }
         if (!inserido) {
@@ -84,6 +90,8 @@ public class TabelaHash {
                 if (tabHash[i] == null) {
                     tabHash[i] = r;
                     break;
+                }else {
+                    qtdColisoes++;
                 }
             }
         }
@@ -110,13 +118,7 @@ public class TabelaHash {
         return -1; // registro não encontrado
     }
 
-    /**
-     * Remove um elemento da tabela dado o seu numero identificador.
-     *
-     * @param nr
-     * @return O elemento, caso seja localizado; caso contrario retorna
-     * <i>null</i>.
-     */
+
     public Registro remove(int nr) {
         int i = localiza(nr);
         if (i == -1) {
@@ -160,6 +162,8 @@ public class TabelaHash {
                 tabHash[i] = r;
                 inserido = true;
                 break;
+            }else {
+                qtdColisoes++;
             }
         }
         if (!inserido) {
@@ -167,6 +171,8 @@ public class TabelaHash {
                 if (tabHash[i] == null) {
                     tabHash[i] = r;
                     break;
+                }else {
+                    qtdColisoes++;
                 }
             }
         }
@@ -232,6 +238,8 @@ public class TabelaHash {
                 tabHash[i] = r;
                 inserido = true;
                 break;
+            }else {
+                qtdColisoes++;
             }
         }
         if (!inserido) {
@@ -239,6 +247,8 @@ public class TabelaHash {
                 if (tabHash[i] == null) {
                     tabHash[i] = r;
                     break;
+                } else {
+                    qtdColisoes++;
                 }
             }
         }
@@ -274,35 +284,31 @@ public class TabelaHash {
         }
     }
 
-    public String imprimeTab(boolean imp) {
-        StringBuilder sb = new StringBuilder();
 
+
+    public String imprimeTab(boolean imp) {
+        String result = "";
         for (int i = 0; i < tabHash.length; i++) {
             Registro r = tabHash[i];
             if (r == null) {
-                sb.append("\n").append(i).append(" | -- vago --");
+                result += i + " | -- vago --\n";
             } else {
-                sb.append("\n").append(i).append(" | ").append(imprimeElem(r, imp));
+                result += i + " | " + imprimeElem(r, imp) + "\n";
             }
         }
-        return sb.toString();
-
+        return result;
     }
 
-    /**
-     * Retorna uma String com a impressao do elemento.
-     *
-     * @param r
-     * @param imp
-     * @return String no seguinte formato: <b>[numero] | [nome]</b>
-     * <br>
-     * Se "imp" == true, acrescenta <b>| [imprecao]</b>
-     */
+
     public String imprimeElem(Registro r, boolean imp) {
         String ret = r.getCodigo() + " | ";
         if (imp) {
             ret += " | " + r.getImprecao();
         }
         return ret;
+    }
+
+    public int getTamanhoTabela(){
+        return tabHash.length;
     }
 }
